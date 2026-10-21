@@ -1,26 +1,140 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mathura Meal Market — Launch Research</title>
-<meta name="description" content="Help plan a fresh, hygienic, home-style vegetarian meal service for Mathura. Market-research pilot — orders are not yet being accepted.">
-<meta name="theme-color" content="#1F4D3A">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+  <!-- Essential metadata -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Mathura Meal Market | Ghar Jaisa Khana, Made with Care</title>
+
+  <meta
+    name="description"
+    content="Help shape a fresh, hygienic, home-style vegetarian meal service for Mathura. Share your preferences and help us understand what local residents need. This is a market-research pilot; orders are not yet being accepted."
+  >
+
+  <meta name="theme-color" content="#173F32">
+  <meta name="color-scheme" content="light">
+
+  <meta
+    name="robots"
+    content="index, follow, max-image-preview:large"
+  >
+
+  <!-- Social sharing metadata -->
+  <meta
+    property="og:type"
+    content="website"
+  >
+
+  <meta
+    property="og:title"
+    content="Mathura Meal Market | Home-Style Vegetarian Food"
+  >
+
+  <meta
+    property="og:description"
+    content="We're exploring a better way to bring fresh, homestyle vegetarian meals to Mathura. Tell us what you would love to eat."
+  >
+
+  <meta
+    property="og:site_name"
+    content="Mathura Meal Market"
+  >
+
+  <meta
+    name="twitter:card"
+    content="summary"
+  >
+
+  <meta
+    name="twitter:title"
+    content="Mathura Meal Market | Home-Style Vegetarian Food"
+  >
+
+  <meta
+    name="twitter:description"
+    content="Help shape a home-style vegetarian meal service for Mathura."
+  >
+
+  <!-- Browser icon -->
+  <link
+    rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23173F32'/%3E%3Ctext x='50' y='66' font-size='56' text-anchor='middle' fill='%23F6EBDD' font-family='Georgia,serif'%3EM%3C/text%3E%3C/svg%3E"
+    type="image/svg+xml"
+  >
+
+  <!-- Font connections -->
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+  >
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <!-- Premium editorial typography -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- Main stylesheet -->
+  <link
+    rel="stylesheet"
+    href="styles.css"
+  >
 </head>
+
 <body>
-<a class="skip" href="#app">Skip to content</a>
-<header class="top" id="top"></header>
-<div id="demo-banner" class="demo-banner" hidden></div>
-<main id="app" tabindex="-1" aria-live="polite"></main>
-<footer id="foot"></footer>
-<script src="config.js"></script>
-<script src="js/data.js"></script>
-<script src="js/store.js"></script>
-<script src="js/app.js"></script>
-<script src="js/admin.js"></script>
-<script>MMM.start();</script>
+
+  <!-- Accessibility: keyboard users can skip navigation -->
+  <a class="skip" href="#app">
+    Skip to content
+  </a>
+
+  <!-- Navigation is rendered by the existing application -->
+  <header
+    class="top"
+    id="top"
+  ></header>
+
+  <!-- Demo-mode notice -->
+  <div
+    id="demo-banner"
+    class="demo-banner"
+    role="status"
+    aria-live="polite"
+    hidden
+  ></div>
+
+  <!-- Main application content -->
+  <main
+    id="app"
+    tabindex="-1"
+    aria-live="polite"
+  ></main>
+
+  <!-- Footer is rendered by the existing application -->
+  <footer id="foot"></footer>
+
+  <!--
+    Keep these scripts in their existing order.
+    The application depends on these files being available
+    before MMM.start() is executed.
+  -->
+
+  <script src="config.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/admin.js"></script>
+
+  <script>
+    MMM.start();
+  </script>
+
 </body>
 </html>
