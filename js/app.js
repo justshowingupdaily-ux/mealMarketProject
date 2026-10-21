@@ -73,27 +73,281 @@
     ["🙏", "Bulk meals for meetings & gatherings", "Meal boxes or buffet for religious and other events.", "#/catering?type=religious"]
   ];
   function home(app) {
-    app.innerHTML = `
-    <section class="hero"><div class="wrap grid"><div>
-      <span class="badge">${esc(t("coming"))}</span>
-      <p class="tag">${esc(t("tagline"))}</p>
-      <h1>${esc(t("hero_h"))}</h1>
-      <p class="lead">${esc(t("hero_p"))}</p>
-      <div class="row"><a class="btn terra" href="#/survey">${esc(t("cta_plan"))}</a><a class="btn ghost" href="#/menu">${esc(t("cta_explore"))}</a></div>
-      <p class="small muted" style="margin-top:14px">Not taking orders yet. The survey takes about 3 minutes and you can stay anonymous.</p>
-    </div><div class="card" style="background:linear-gradient(160deg,#f6e9c9,#efd9a3)">${food(["roti", "dal", "sabzi", "rice", "curd"])}<p class="small muted" style="margin:6px 0 0;text-align:center">Illustration of the proposed Everyday Thali concept. Real photos will be added once we cook.</p></div></div></section>
+  const photos = {
+    hero: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=1400&q=85",
+    thali: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80",
+    fresh: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=900&q=80",
+    meal: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=900&q=80"
+  };
 
-    <section><div class="wrap"><h2>${esc(t("svc_h"))}</h2><p class="muted">${esc(t("svc_p"))}</p>
-      <div class="cards">${SERVICE_CARDS.map(c => `<div class="card svc"><div class="ic" aria-hidden="true">${c[0]}</div><h3>${esc(c[1])}</h3><p>${esc(c[2])}</p><a class="btn sm ghost" href="${c[3]}">I'm interested →</a></div>`).join("")}</div></div></section>
+  app.innerHTML = `
+    <section class="premium-hero">
+      <div class="premium-hero-inner">
 
-    <section><div class="wrap"><h2>${esc(t("why_h"))}</h2><div class="note info" style="margin-bottom:14px">${esc(t("why_note"))}</div>
-      <div class="why">${[["🌿", "Freshness", "We plan to cook each day's meals fresh, with seasonal vegetables."], ["🧼", "Hygiene", "A clean kitchen and covered packing are the first thing we want to get right."], ["⚖️", "Consistent portions", "The same portion every day, written down for everyone to see."], ["🏷️", "Transparent prices", "Simple prices with delivery clearly stated — no surprises."], ["🤝", "Dependable service", "Reliable timing. We will only start where we can keep the promise."]].map(w => `<div class="card"><div style="font-size:1.6rem" aria-hidden="true">${w[0]}</div><h3>${w[1]}</h3><p style="margin:0">${w[2]}</p></div>`).join("")}</div></div></section>
+        <div class="premium-copy">
+          <span class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            MADE FOR MATHURA
+          </span>
 
-    <section><div class="wrap"><div class="card"><h2>${esc(t("launch_h"))}</h2>
-      <p class="muted">Leave your details only if you want us to contact you about a possible pilot. This is not an order or booking.</p>
-      <div id="li-box">${launchForm()}</div></div></div></section>`;
-    bindLaunch();
-  }
+          <p class="premium-kicker">
+            ${esc(t("tagline"))}
+          </p>
+
+          <h1>
+            ${esc(t("hero_h"))}
+          </h1>
+
+          <p class="premium-description">
+            ${esc(t("hero_p"))}
+          </p>
+
+          <div class="premium-actions">
+            <a class="premium-btn premium-btn-primary"
+               href="#/survey">
+              ${esc(t("cta_plan"))}
+              <span aria-hidden="true">↗</span>
+            </a>
+
+            <a class="premium-btn premium-btn-secondary"
+               href="#/menu">
+              ${esc(t("cta_explore"))}
+            </a>
+          </div>
+
+          <div class="premium-trust">
+            <span class="trust-icon" aria-hidden="true">✳</span>
+            <span>
+              Help shape a proposed home-style vegetarian
+              meal service in Mathura.
+            </span>
+          </div>
+        </div>
+
+        <div class="premium-visual">
+          <div class="hero-photo-frame">
+            <img
+              class="hero-photo"
+              src="${photos.hero}"
+              alt="A colourful meal made with fresh ingredients"
+              fetchpriority="high"
+            >
+
+            <div class="photo-label">
+              <span class="photo-label-icon">✳</span>
+              <div>
+                <strong>Everyday goodness</strong>
+                <span>A proposed meal concept</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="floating-note">
+            <span class="floating-note-icon">♡</span>
+            <div>
+              <strong>Rooted in home-style food</strong>
+              <span>Designed around local needs</span>
+            </div>
+          </div>
+
+          <span class="hero-decoration hero-decoration-one">✳</span>
+          <span class="hero-decoration hero-decoration-two">✿</span>
+        </div>
+      </div>
+
+      <div class="hero-bottom-line">
+        <span>GOOD FOOD. EVERYDAY COMFORT.</span>
+        <span>MATHURA, UTTAR PRADESH</span>
+      </div>
+    </section>
+
+    <section class="premium-services">
+      <div class="premium-section-heading">
+        <div>
+          <span class="premium-overline">WHAT WE'RE EXPLORING</span>
+          <h2>
+            Everyday meals,<br>
+            <em>thoughtfully imagined.</em>
+          </h2>
+        </div>
+
+        <p>
+          From a simple daily thali to meals for the whole family,
+          help us understand what Mathura really needs.
+        </p>
+      </div>
+
+      <div class="premium-service-grid">
+        ${SERVICE_CARDS.map((c, i) => `
+          <article class="premium-service-card">
+            <div class="service-card-top">
+              <span class="service-number">
+                ${String(i + 1).padStart(2, "0")}
+              </span>
+              <span class="service-symbol" aria-hidden="true">
+                ${c[0]}
+              </span>
+            </div>
+
+            <h3>${esc(c[1])}</h3>
+            <p>${esc(c[2])}</p>
+
+            <a href="${c[3]}" class="service-link">
+              Share your interest
+              <span aria-hidden="true">↗</span>
+            </a>
+          </article>
+        `).join("")}
+      </div>
+    </section>
+
+    <section class="premium-food-section">
+      <div class="premium-food-image">
+        <img
+          src="${photos.thali}"
+          alt="A colourful selection of food"
+          loading="lazy"
+        >
+      </div>
+
+      <div class="premium-food-copy">
+        <span class="premium-overline">SIMPLE. FAMILIAR. COMFORTING.</span>
+
+        <h2>
+          Food that feels<br>
+          <em>a little like home.</em>
+        </h2>
+
+        <p>
+          Imagine everyday vegetarian meals with familiar flavours,
+          thoughtful portions and prices that make sense.
+          We're researching what people in Mathura would actually want.
+        </p>
+
+        <ul class="premium-values">
+          <li>
+            <span>01</span>
+            Familiar vegetarian meals
+          </li>
+          <li>
+            <span>02</span>
+            Clear, considered pricing
+          </li>
+          <li>
+            <span>03</span>
+            Meal plans shaped by local needs
+          </li>
+        </ul>
+
+        <a class="premium-text-link" href="#/menu">
+          Explore the proposed menu <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="premium-approach">
+      <div class="premium-approach-heading">
+        <span class="premium-overline">OUR INTENDED APPROACH</span>
+        <h2>Good intentions.<br><em>Practical details.</em></h2>
+        <p>
+          Before launching anything, we want to understand what matters
+          most to the people who might use this service.
+        </p>
+      </div>
+
+      <div class="premium-approach-grid">
+        <article class="approach-card">
+          <span class="approach-icon">✳</span>
+          <h3>Freshness first</h3>
+          <p>
+            Explore expectations around freshly prepared,
+            everyday vegetarian meals.
+          </p>
+        </article>
+
+        <article class="approach-card">
+          <span class="approach-icon">♡</span>
+          <h3>Honest pricing</h3>
+          <p>
+            Help us understand a realistic price for the meals
+            and portions you would choose.
+          </p>
+        </article>
+
+        <article class="approach-card">
+          <span class="approach-icon">⌂</span>
+          <h3>Designed locally</h3>
+          <p>
+            Meal preferences, delivery needs and budgets
+            should reflect real life in Mathura.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="premium-research">
+      <div class="premium-research-image">
+        <img
+          src="${photos.fresh}"
+          alt="Fresh ingredients arranged for a meal"
+          loading="lazy"
+        >
+      </div>
+
+      <div class="premium-research-copy">
+        <span class="premium-overline">YOUR OPINION MATTERS</span>
+
+        <h2>
+          Help us get<br>
+          <em>the details right.</em>
+        </h2>
+
+        <p>
+          Take a short survey about your meal habits, preferred
+          services and realistic budget. Your answers will help
+          us evaluate whether a local pilot makes sense.
+        </p>
+
+        <a href="#/survey" class="premium-btn premium-btn-primary">
+          Take the survey <span aria-hidden="true">↗</span>
+        </a>
+
+        <p class="premium-research-note">
+          Approximately 3 minutes · No purchase required
+        </p>
+      </div>
+    </section>
+
+    <section class="premium-interest">
+      <div class="premium-interest-inner">
+        <div>
+          <span class="premium-overline">STAY IN THE LOOP</span>
+          <h2>Interested in a future pilot?</h2>
+          <p>
+            You can leave your details if you'd like to hear from us
+            about a possible launch in Mathura.
+          </p>
+        </div>
+
+        <div class="premium-interest-form" id="li-box">
+          ${launchForm()}
+        </div>
+      </div>
+    </section>
+
+    <div class="premium-disclaimer">
+      <span aria-hidden="true">ⓘ</span>
+      <p>
+        <strong>Currently in the research stage.</strong>
+        This website is exploring demand for a proposed meal service.
+        The menu and prices are illustrative. Orders, payments and
+        bookings are not being accepted.
+      </p>
+    </div>
+  `;
+
+  bindLaunch();
+}
   function consentBlock(prefix) {
     return `<label class="chk"><input type="checkbox" name="consent" required><span>${esc(M.CONSENT_TEXT)} <a href="#/privacy" target="_blank" rel="noopener">Privacy notice</a></span></label>
       <label class="chk"><input type="checkbox" name="promo"><span>${esc(M.PROMO_TEXT)}</span></label>`;
