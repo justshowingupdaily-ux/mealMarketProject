@@ -2577,3 +2577,251 @@ body {
     font-size: .86rem;
   }
 }
+
+/* ======================================
+   COMPACT, PREMIUM FOOD PHOTO CARDS
+   ====================================== */
+
+#app .premium-services {
+  padding: 38px 2.5%;
+  background: #fbf8f1;
+}
+
+#app .premium-section-heading {
+  margin-bottom: 24px;
+  align-items: end;
+}
+
+#app .premium-section-heading .premium-overline {
+  margin-bottom: 8px;
+  font-size: 10px;
+}
+
+#app .premium-section-heading h2 {
+  font-size: clamp(26px, 3vw, 38px);
+  line-height: 1.12;
+}
+
+#app .premium-section-heading > p {
+  max-width: 320px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* Compact grid */
+
+#app .premium-service-grid {
+  max-width: 1320px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0 auto;
+}
+
+/* Card */
+
+#app .premium-service-card {
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #fffdf9;
+  border: 1px solid #eee5d7;
+  border-radius: 9px;
+  box-shadow: 0 3px 12px rgba(44, 57, 38, 0.035);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+#app .premium-service-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 9px 24px rgba(44, 57, 38, 0.09);
+}
+
+/* Photo */
+
+#app .premium-service-card .service-card-image {
+  width: 100%;
+  height: 125px;
+  overflow: hidden;
+  background: #eee8dc;
+}
+
+#app .premium-service-card .service-card-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.35s ease;
+}
+
+#app .premium-service-card:hover .service-card-image img {
+  transform: scale(1.035);
+}
+
+/* Card text */
+
+#app .premium-service-card .service-card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 13px 13px;
+}
+
+#app .premium-service-card .service-number {
+  margin-bottom: 5px;
+  color: #a16a4c;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+#app .premium-service-card h3 {
+  margin: 0 0 6px;
+  color: #244a38;
+  font-family: var(--premium-serif);
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: 500;
+}
+
+#app .premium-service-card p {
+  margin: 0 0 12px;
+  color: #77766d;
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+#app .premium-service-card .service-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 9px;
+  border-top: 1px solid #eee7dc;
+  color: #b84f30;
+  font-size: 10px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+#app .premium-service-card .service-link:hover {
+  color: #244a38;
+}
+
+/* Hero: retain the main food image */
+
+#app .premium-hero {
+  padding-top: 26px;
+}
+
+#app .premium-hero-inner {
+  min-height: 370px;
+  padding-top: 10px;
+  padding-bottom: 30px;
+  gap: 38px;
+}
+
+#app .premium-copy h1 {
+  font-size: clamp(38px, 4.2vw, 62px);
+}
+
+#app .hero-photo-frame {
+  height: 365px;
+  border-radius: 48% 48% 5px 5px;
+}
+
+#app .premium-trust {
+  margin-top: 18px;
+  font-size: 11px;
+}
+
+#app .premium-description {
+  margin: 16px 0 20px;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+/* Tablet */
+
+@media (max-width: 900px) {
+  #app .premium-service-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  #app .premium-service-card .service-card-image {
+    height: 150px;
+  }
+
+  #app .premium-hero-inner {
+    gap: 24px;
+  }
+
+  #app .hero-photo-frame {
+    height: 320px;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 560px) {
+  #app .premium-services {
+    padding: 32px 16px;
+  }
+
+  #app .premium-section-heading {
+    display: block;
+  }
+
+  #app .premium-section-heading > p {
+    margin-top: 12px;
+  }
+
+  #app .premium-service-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  #app .premium-service-card .service-card-image {
+    height: 112px;
+  }
+
+  #app .premium-service-card .service-card-content {
+    padding: 10px;
+  }
+
+  #app .premium-service-card h3 {
+    font-size: 14px;
+  }
+
+  #app .premium-service-card p {
+    font-size: 10px;
+  }
+
+  #app .premium-hero {
+    padding: 24px 18px 0;
+  }
+
+  #app .premium-hero-inner {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding-bottom: 25px;
+  }
+
+  #app .premium-copy h1 {
+    font-size: clamp(36px, 10vw, 48px);
+  }
+
+  #app .hero-photo-frame {
+    height: 300px;
+  }
+
+  #app .floating-note {
+    left: 8px;
+    bottom: 20px;
+  }
+}
