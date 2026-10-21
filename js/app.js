@@ -453,25 +453,302 @@ hero: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit
   }
 
   /* ---------- menu ---------- */
-  function menu(app) {
-    let filter = "all"; let picks = S.ls.get("mmm_menu_pick", []);
-    const cats = [["all", "All"], ["thali", "Thalis"], ["rice", "Rice meals"], ["light", "Light meals"], ["plan", "Plans"]];
-    const draw = () => {
-      app.innerHTML = `<section><div class="wrap"><h1>Proposed menu</h1>
-      <div class="note">Every item below is a <strong>proposal for research</strong> — not currently available to order. Prices are illustrative and may change after we hear from you.</div>
-      <div style="margin:18px 0" class="chips" role="radiogroup" aria-label="Filter by meal type">${cats.map(c => `<label class="chip"><input type="radio" name="cat" value="${c[0]}" ${filter === c[0] ? "checked" : ""}><span>${c[1]}</span></label>`).join("")}</div>
-      <div class="cards">${M.MENU.filter(m => filter === "all" || m.cat === filter).map(m => `<article class="card menu-card"><div class="pic">${food(m.dishes)}</div><div class="body"><span class="pill">Proposed menu — not currently available to order</span><h3>${esc(m.name)}</h3><div class="price">${inr(m.price)}${m.unit ? ` <small class="muted" style="font-size:.9rem">/ ${esc(m.unit)}</small>` : ""}</div><ul>${m.items.map(i => `<li>${esc(i)}</li>`).join("")}</ul>
-        <label class="chk" style="margin-top:auto"><input type="checkbox" data-pick="${m.id}" ${picks.includes(m.id) ? "checked" : ""}><span>I would realistically consider buying this</span></label></div></article>`).join("")}</div>
-      <h2 style="margin-top:34px">Compare daily, weekly and monthly</h2>
-      <div class="tbl"><table><thead><tr><th>Everyday Thali style</th><th>Daily</th><th>Weekly (6 meals)</th><th>Monthly (26 meals)</th></tr></thead><tbody>
-        <tr><th>Proposed price</th><td>${inr(119)} per meal</td><td>${inr(680)} <span class="muted">(≈ ₹113/meal)</span></td><td>${inr(2600)} <span class="muted">(₹100/meal)</span></td></tr>
-        <tr><th>Commitment</th><td>None</td><td>1 week</td><td>1 month</td></tr><tr><th>Status</th><td colspan="3"><span class="pill">Illustrative prices requiring validation — not available to order</span></td></tr></tbody></table></div>
-      <div class="card" style="margin-top:22px"><div class="row" style="justify-content:space-between"><div><strong>${picks.length}</strong> item(s) you would consider.<div class="small muted">We will attach your picks to the survey so we learn what matters.</div></div><a class="btn terra" href="#/survey">Tell us what you'd pay →</a></div></div></div></section>`;
-      app.querySelectorAll("[name=cat]").forEach(i => i.onchange = () => { filter = i.value; draw(); const c = app.querySelector(`[name=cat][value=${filter}]`); if (c) c.focus(); });
-      app.querySelectorAll("[data-pick]").forEach(i => i.onchange = () => { picks = i.checked ? picks.concat(i.dataset.pick) : picks.filter(x => x !== i.dataset.pick); S.ls.set("mmm_menu_pick", picks); const el = app.querySelector(".card strong"); });
-    };
-    draw();
-  }
+  /* ---------- premium menu page ---------- */
+function menu(app) {
+  let filter = "all";
+  let picks = S.ls.get("mmm_menu_pick", []);
+
+  const cats = [
+    ["all", "All meals"],
+    ["thali", "Thalis"],
+    ["rice", "Rice meals"],
+    ["light", "Light meals"],
+    ["plan", "Meal plans"]
+  ];
+
+  // Illustrative photography for proposed meal concepts.
+  const menuPhotos = [
+    "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=800&q=80"
+  ];
+
+  const draw = () => {
+    const visibleMeals = M.MENU.filter(
+      m => filter === "all" || m.cat === filter
+    );
+
+    app.innerHTML = `
+      <section class="menu-page">
+        <div class="menu-wrap">
+
+          <header class="menu-intro">
+            <span class="menu-eyebrow">
+              MATHURA MEAL MARKET · MENU CONCEPTS
+            </span>
+
+            <h1>
+              Everyday meals,<br>
+              <em>made to feel like home.</em>
+            </h1>
+
+            <p>
+              Explore the vegetarian meal concepts we're considering
+              for Mathura. Help us understand what you'd genuinely
+              enjoy and what you'd realistically pay.
+            </p>
+
+            <div class="menu-intro-meta">
+              <span>✳ Vegetarian concepts</span>
+              <span>✳ Illustrative pricing</span>
+              <span>✳ Your preferences matter</span>
+            </div>
+          </header>
+
+          <div class="menu-research-notice">
+            <span class="menu-notice-icon" aria-hidden="true">ⓘ</span>
+            <div>
+              <strong>These meals are proposed concepts.</strong>
+              <p>
+                The photographs are illustrative, and prices are
+                estimates for market research. Orders and payments
+                are not currently being accepted.
+              </p>
+            </div>
+          </div>
+
+          <div class="menu-filter-heading">
+            <div>
+              <span class="menu-eyebrow">FIND YOUR KIND OF MEAL</span>
+              <h2>Explore the menu</h2>
+            </div>
+
+            <span class="menu-count">
+              ${visibleMeals.length} concepts
+            </span>
+          </div>
+
+          <div class="menu-filter-bar"
+               role="radiogroup"
+               aria-label="Filter by meal type">
+
+            ${cats.map(c => `
+              <label class="menu-filter-chip">
+                <input
+                  type="radio"
+                  name="cat"
+                  value="${c[0]}"
+                  ${filter === c[0] ? "checked" : ""}
+                >
+                <span>${c[1]}</span>
+              </label>
+            `).join("")}
+
+          </div>
+
+          <div class="menu-photo-grid">
+
+            ${visibleMeals.map((m, index) => {
+              const photo = menuPhotos[index % menuPhotos.length];
+              const selected = picks.includes(m.id);
+
+              return `
+                <article class="menu-product-card">
+
+                  <div class="menu-product-image">
+                    <img
+                      src="${photo}"
+                      alt="Illustrative vegetarian meal concept"
+                      loading="lazy"
+                    >
+
+                    <span class="menu-image-label">
+                      Proposed concept
+                    </span>
+                  </div>
+
+                  <div class="menu-product-body">
+
+                    <div class="menu-product-topline">
+                      <span class="menu-product-category">
+                        ${esc(
+                          cats.find(c => c[0] === m.cat)?.[1] || "Vegetarian"
+                        )}
+                      </span>
+
+                      <span class="menu-product-status">
+                        Research
+                      </span>
+                    </div>
+
+                    <h3>${esc(m.name)}</h3>
+
+                    <div class="menu-product-price">
+                      ${inr(m.price)}
+                      ${m.unit ? `
+                        <small>/ ${esc(m.unit)}</small>
+                      ` : ""}
+                    </div>
+
+                    <ul class="menu-product-items">
+                      ${m.items.map(item => `
+                        <li>${esc(item)}</li>
+                      `).join("")}
+                    </ul>
+
+                    <label class="menu-interest-option">
+                      <input
+                        type="checkbox"
+                        data-pick="${esc(m.id)}"
+                        ${selected ? "checked" : ""}
+                      >
+
+                      <span class="menu-interest-check"
+                            aria-hidden="true">
+                        ${selected ? "✓" : "+"}
+                      </span>
+
+                      <span>
+                        <strong>
+                          ${selected ? "Added to my preferences" : "I'd consider this meal"}
+                        </strong>
+                        <small>
+                          Help us understand your preferences
+                        </small>
+                      </span>
+                    </label>
+
+                  </div>
+                </article>
+              `;
+            }).join("")}
+
+          </div>
+
+          <section class="menu-comparison">
+            <div class="menu-comparison-heading">
+              <span class="menu-eyebrow">A REGULAR MEAL ROUTINE</span>
+              <h2>What could a meal plan look like?</h2>
+              <p>
+                Compare these illustrative prices and tell us
+                whether they would work for your budget.
+              </p>
+            </div>
+
+            <div class="menu-plan-grid">
+
+              <article class="menu-plan-card">
+                <span class="menu-plan-label">FLEXIBLE</span>
+                <h3>Daily meal</h3>
+                <div class="menu-plan-price">₹119</div>
+                <p>Pay per proposed meal.</p>
+                <span class="menu-plan-detail">
+                  No weekly commitment
+                </span>
+              </article>
+
+              <article class="menu-plan-card menu-plan-featured">
+                <span class="menu-plan-label">WEEKLY ROUTINE</span>
+                <h3>6-meal plan</h3>
+                <div class="menu-plan-price">₹680</div>
+                <p>Approximately ₹113 per meal.</p>
+                <span class="menu-plan-detail">
+                  Illustrative weekly total
+                </span>
+              </article>
+
+              <article class="menu-plan-card">
+                <span class="menu-plan-label">MONTHLY ROUTINE</span>
+                <h3>26-meal plan</h3>
+                <div class="menu-plan-price">₹2,600</div>
+                <p>Approximately ₹100 per meal.</p>
+                <span class="menu-plan-detail">
+                  Illustrative monthly total
+                </span>
+              </article>
+
+            </div>
+
+            <p class="menu-pricing-footnote">
+              All prices are estimates for research, not confirmed
+              prices or offers. Actual meals, portions, availability
+              and pricing would need to be established before launch.
+            </p>
+          </section>
+
+          <section class="menu-feedback">
+            <div>
+              <span class="menu-eyebrow">HELP SHAPE THE MENU</span>
+              <h2>Your choices can shape what comes next.</h2>
+              <p>
+                You've selected
+                <strong>${picks.length}</strong>
+                meal concept${picks.length === 1 ? "" : "s"}.
+                Continue to the short survey to tell us about your
+                budget and preferences.
+              </p>
+            </div>
+
+            <a class="menu-feedback-button" href="#/survey">
+              Share my preferences <span>↗</span>
+            </a>
+          </section>
+
+        </div>
+      </section>
+    `;
+
+    app.querySelectorAll("[name=cat]").forEach(input => {
+      input.onchange = () => {
+        filter = input.value;
+        draw();
+
+        const selectedFilter =
+          app.querySelector(`[name="cat"][value="${filter}"]`);
+
+        if (selectedFilter) selectedFilter.focus();
+      };
+    });
+
+    app.querySelectorAll("[data-pick]").forEach(input => {
+      input.onchange = () => {
+        picks = input.checked
+          ? [...new Set([...picks, input.dataset.pick])]
+          : picks.filter(id => id !== input.dataset.pick);
+
+        S.ls.set("mmm_menu_pick", picks);
+
+        // Refresh the selection summary without rebuilding the entire page.
+        const feedback = app.querySelector(".menu-feedback p");
+
+        if (feedback) {
+          feedback.innerHTML = `
+            You've selected
+            <strong>${picks.length}</strong>
+            meal concept${picks.length === 1 ? "" : "s"}.
+            Continue to the short survey to tell us about your
+            budget and preferences.
+          `;
+        }
+
+        const label = input.closest(".menu-interest-option");
+        const check = label?.querySelector(".menu-interest-check");
+        const title = label?.querySelector(".menu-interest-option strong");
+
+        if (check) check.textContent = input.checked ? "✓" : "+";
+
+        if (title) {
+          title.textContent = input.checked
+            ? "Added to my preferences"
+            : "I'd consider this meal";
+        }
+      };
+    });
+  };
+
+  draw();
+}
 
   /* ---------- survey ---------- */
   const SV = { active: false, step: 1, a: S.ls.get("mmm_survey_draft", null) || {}, started: false, done: false };
