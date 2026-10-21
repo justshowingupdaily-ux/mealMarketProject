@@ -74,11 +74,22 @@
   ];
   function home(app) {
   const photos = {
-    hero: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1400&q=85",
-    thali: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80",
-    fresh: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=900&q=80",
-    meal: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=900&q=80"
-  };
+  hero: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=1600&q=85",
+
+  student: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=700&q=80",
+
+  working: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=700&q=80",
+
+  family: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=700&q=80",
+
+  special: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=700&q=80",
+
+  thali: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=900&q=80",
+
+  fresh: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=900&q=80",
+
+  meal: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=900&q=80"
+};
 
   app.innerHTML = `
     <section class="premium-hero">
@@ -178,27 +189,82 @@
       </div>
 
       <div class="premium-service-grid">
-        ${SERVICE_CARDS.map((c, i) => `
-          <article class="premium-service-card">
-            <div class="service-card-top">
-              <span class="service-number">
-                ${String(i + 1).padStart(2, "0")}
-              </span>
-              <span class="service-symbol" aria-hidden="true">
-                ${c[0]}
-              </span>
-            </div>
 
-            <h3>${esc(c[1])}</h3>
-            <p>${esc(c[2])}</p>
+  <article class="premium-service-card">
+    <div class="service-card-image">
+      <img
+        src="${photos.student}"
+        alt="Vegetarian meal with fresh vegetables and grains"
+        loading="lazy"
+      >
+    </div>
+    <div class="service-card-content">
+      <span class="service-number">01</span>
+      <h3>Student Meals</h3>
+      <p>Affordable, balanced meals for students and PG residents.</p>
+      <a class="service-link" href="#/survey">
+        Explore meals <span>↗</span>
+      </a>
+    </div>
+  </article>
 
-            <a href="${c[3]}" class="service-link">
-              Share your interest
-              <span aria-hidden="true">↗</span>
-            </a>
-          </article>
-        `).join("")}
-      </div>
+  <article class="premium-service-card">
+    <div class="service-card-image">
+      <img
+        src="${photos.working}"
+        alt="Fresh vegetarian lunch bowl"
+        loading="lazy"
+      >
+    </div>
+    <div class="service-card-content">
+      <span class="service-number">02</span>
+      <h3>Working Professionals</h3>
+      <p>Convenient everyday meals for busy workdays.</p>
+      <a class="service-link" href="#/survey">
+        Explore meals <span>↗</span>
+      </a>
+    </div>
+  </article>
+
+  <article class="premium-service-card">
+    <div class="service-card-image">
+      <img
+        src="${photos.family}"
+        alt="Home-style vegetarian meal"
+        loading="lazy"
+      >
+    </div>
+    <div class="service-card-content">
+      <span class="service-number">03</span>
+      <h3>Family Meals</h3>
+      <p>Explore meal packages for your household.</p>
+      <a class="service-link" href="#/survey">
+        Explore meals <span>↗</span>
+      </a>
+    </div>
+  </article>
+
+  <article class="premium-service-card">
+    <div class="service-card-image">
+      <img
+        src="${photos.special}"
+        alt="Colourful vegetarian meal with fresh ingredients"
+        loading="lazy"
+      >
+    </div>
+    <div class="service-card-content">
+      <span class="service-number">04</span>
+      <h3>Special Diet Meals</h3>
+      <p>Share your preferences for lighter, balanced meals.</p>
+      <a class="service-link" href="#/survey">
+        Explore meals <span>↗</span>
+      </a>
+    </div>
+  </article>
+
+</div>
+
+            
     </section>
 
     <section class="premium-food-section">
