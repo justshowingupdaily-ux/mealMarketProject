@@ -452,67 +452,340 @@ hero: "https://images.unsplash.com/photo-1680359873864-43e89bf248ac?auto=format&
     };
   }
 
-  /* ---------- menu ---------- */
   /* ---------- premium menu page ---------- */
 function menu(app) {
   let filter = "all";
   let picks = S.ls.get("mmm_menu_pick", []);
+  if (!Array.isArray(picks)) picks = [];
 
   const cats = [
     ["all", "All meals"],
-    ["thali", "Thalis"],
+    ["thali", "Daily thalis"],
     ["rice", "Rice meals"],
     ["light", "Light meals"],
-    ["plan", "Meal plans"]
+    ["plan", "Monthly tiffins"],
+    ["vrat", "Vrat & festivals"],
+    ["bulk", "Bulk & events"]
   ];
 
-  // Illustrative photography for proposed meal concepts.
-  const menuPhotos = [
-    "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=800&q=80",
-        "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=800&q=80",
-  "https://images.unsplash.com/photo-1668236534990-73c4ed23043c?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
-    "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80"  ];
+  const photos = {
+    thali: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=900&q=80",
+    rice: "https://images.unsplash.com/photo-1668236534990-73c4ed23043c?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
+    light: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80",
+    plan: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=900&q=80",
+    vrat: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=900&q=80",
+    bulk: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=900&q=80"
+  };
+
+  // All prices are proposed research prices, not live offers.
+  const meals = [
+    {
+      id: "regular-thali",
+      cat: "thali",
+      name: "Regular Home-Style Thali",
+      price: 120,
+      badge: "Everyday favourite",
+      description: "A familiar, satisfying meal for everyday lunch or dinner.",
+      items: ["Rotis", "Seasonal sabzi", "Dal", "Rice", "Pickle or salad"]
+    },
+    {
+      id: "special-thali",
+      cat: "thali",
+      name: "Special Vegetarian Thali",
+      price: 179,
+      badge: "A little extra",
+      description: "A more elaborate meal with extra variety.",
+      items: ["Rotis", "Paneer or special curry", "Dal", "Jeera rice", "Seasonal sabzi", "Accompaniments"]
+    },
+    {
+      id: "chole-chawal",
+      cat: "rice",
+      name: "Chole Chawal",
+      price: 120,
+      description: "Chickpea curry served with rice.",
+      items: ["Chole", "Steamed rice"]
+    },
+    {
+      id: "rajma-chawal",
+      cat: "rice",
+      name: "Rajma Chawal",
+      price: 120,
+      description: "Comforting rajma curry with rice.",
+      items: ["Rajma curry", "Steamed rice"]
+    },
+    {
+      id: "kadhi-chawal",
+      cat: "rice",
+      name: "Kadhi Chawal",
+      price: 120,
+      description: "North Indian kadhi paired with rice.",
+      items: ["Kadhi", "Rice"]
+    },
+    {
+      id: "dal-chawal",
+      cat: "rice",
+      name: "Dal Chawal",
+      price: 99,
+      description: "A simple, everyday comfort-food combination.",
+      items: ["Dal", "Steamed rice"]
+    },
+    {
+      id: "dal-tadka-rice",
+      cat: "rice",
+      name: "Dal Tadka Rice",
+      price: 120,
+      description: "Dal with a flavourful tadka and rice.",
+      items: ["Dal tadka", "Rice"]
+    },
+    {
+      id: "paneer-rice",
+      cat: "rice",
+      name: "Paneer Curry with Rice",
+      price: 149,
+      description: "Paneer curry served with rice.",
+      items: ["Paneer curry", "Rice"]
+    },
+    {
+      id: "curd-rice",
+      cat: "light",
+      name: "Curd Rice",
+      price: 99,
+      description: "A simple, cooling curd-and-rice meal.",
+      items: ["Rice", "Curd", "Seasoning"]
+    },
+    {
+      id: "ghee-khichdi",
+      cat: "light",
+      name: "Desi Ghee Khichdi",
+      price: 129,
+      description: "Comforting khichdi with familiar accompaniments.",
+      items: ["Khichdi", "Desi ghee", "Curd", "Papad"]
+    },
+    {
+      id: "moong-khichdi",
+      cat: "light",
+      name: "Moong Dal Khichdi",
+      price: 119,
+      description: "A simple rice-and-dal meal.",
+      items: ["Moong dal", "Rice", "Curd"]
+    },
+    {
+      id: "simple-dal-rice",
+      cat: "light",
+      name: "Simple Dal Rice",
+      price: 99,
+      description: "An uncomplicated everyday meal.",
+      items: ["Dal", "Rice"]
+    }
+  ];
+
+  const plans = [
+    {
+      id: "breakfast-dinner-plan",
+      name: "Breakfast & Dinner",
+      price: 5000,
+      badge: "Monthly tiffin",
+      description: "A proposed monthly routine for people who need two meals a day.",
+      items: [
+        "Breakfast every service day",
+        "Dinner every service day",
+        "Monday to Saturday",
+        "Sunday excluded",
+        "Proposed monthly price: ₹5,000"
+      ],
+      note: "Approximately 26 days per month, subject to the final calendar and service arrangements."
+    },
+    {
+      id: "lunch-dinner-plan",
+      name: "Lunch & Dinner",
+      price: 5500,
+      badge: "Monthly tiffin",
+      description: "A proposed everyday meal plan for a more regular food routine.",
+      items: [
+        "Lunch every service day",
+        "Dinner every service day",
+        "Monday to Saturday",
+        "Sunday excluded",
+        "Proposed monthly price: ₹5,500"
+      ],
+      note: "Approximately 26 days per month, subject to the final calendar and service arrangements."
+    }
+  ];
+
+  const vratMeals = [
+    {
+      id: "navratri-nine-day",
+      name: "Navratri 9-Day Meal Plan",
+      description: "Explore a nine-day selection of fasting meals.",
+      items: ["Vrat-friendly meal options", "Menu variety across nine days", "Package pricing to be determined"]
+    },
+    {
+      id: "vrat-thali",
+      name: "Vrat Thali",
+      description: "A proposed fasting meal that can be adapted to your family's requirements.",
+      items: ["Vrat-friendly main dish", "Suitable sabzi", "Optional curd", "Accompaniments as agreed"]
+    },
+    {
+      id: "karwa-chauth",
+      name: "Karwa Chauth Meal",
+      description: "A special meal option for Karwa Chauth.",
+      items: ["Fasting meal options", "Custom menu on enquiry"]
+    },
+    {
+      id: "ekadashi-meal",
+      name: "Ekadashi Meal",
+      description: "A menu concept for households observing Ekadashi.",
+      items: ["Menu based on your fasting practices", "Ingredient requirements discussed in advance"]
+    },
+    {
+      id: "festival-meal",
+      name: "Custom Festival Meals",
+      description: "Meal arrangements for other festivals and religious occasions.",
+      items: ["Custom vegetarian menu", "Quantity and timing discussed in advance"]
+    }
+  ];
+
+  const events = [
+    {
+      id: "pre-wedding",
+      name: "Pre-Wedding Functions",
+      description: "Home-style food for family gatherings before the wedding.",
+      items: ["Haldi", "Mehendi", "Engagement", "Family get-togethers"]
+    },
+    {
+      id: "sundarkand",
+      name: "Sundarkand & Bhajan Events",
+      description: "Traditional vegetarian food for religious gatherings.",
+      items: ["Poori", "Sukhi sabzi", "Halwa or kheer", "Custom menu on request"]
+    },
+    {
+      id: "katha",
+      name: "Katha & Religious Functions",
+      description: "Bulk meals for kathas, pujas and community gatherings.",
+      items: ["Poori-sabzi", "Kheer", "Raita", "Papad and pickle"]
+    },
+    {
+      id: "birthday",
+      name: "Birthday & Family Celebrations",
+      description: "Custom home-style menus for special occasions.",
+      items: ["Paneer sabzi", "Jeera rice", "Poori or roti", "Raita and dessert"]
+    },
+    {
+      id: "karwa-chauth-event",
+      name: "Karwa Chauth Gatherings",
+      description: "Vrat meals or regular vegetarian food for family gatherings.",
+      items: ["Custom fasting options", "Family meal menus", "Bulk quantities"]
+    },
+    {
+      id: "navratri-event",
+      name: "Navratri Meal Arrangements",
+      description: "Fasting meals or bulk food for Navratri gatherings.",
+      items: ["Vrat meal options", "Group meal arrangements", "Custom menu enquiry"]
+    },
+    {
+      id: "family-function",
+      name: "Family Functions & Other Events",
+      description: "Tell us the occasion and we'll explore a suitable menu concept.",
+      items: ["Housewarming", "Anniversary", "Religious gathering", "Other occasions"]
+    }
+  ];
+
+  const allIds = new Set([
+    ...meals.map(m => m.id),
+    ...plans.map(p => p.id),
+    ...vratMeals.map(m => m.id)
+  ]);
+
+  // Preserve existing saved selections, including IDs from the previous menu.
+  const renderCards = (items, cat, type) => items.map(item => {
+    const selected = picks.includes(item.id);
+    const image = photos[cat] || photos.thali;
+    const price = item.price != null
+      ? `<div class="menu-product-price">${inr(item.price)}<small>${type === "plan" ? " / month" : " / meal"}</small></div>`
+      : "";
+
+    return `
+      <article class="menu-product-card">
+        <div class="menu-product-image">
+          <img
+            src="${image}"
+            alt="${esc(item.name)}"
+            loading="lazy"
+          >
+          <span class="menu-image-label">${esc(item.badge || "Proposed concept")}</span>
+        </div>
+
+        <div class="menu-product-body">
+          <div class="menu-product-topline">
+            <span class="menu-product-category">${esc(cats.find(c => c[0] === cat)?.[1] || cat)}</span>
+            <span class="menu-product-status">Research</span>
+          </div>
+
+          <h3>${esc(item.name)}</h3>
+          ${price}
+          <p class="menu-card-description">${esc(item.description || "")}</p>
+
+          <ul class="menu-product-items">
+            ${(item.items || []).map(text => `<li>${esc(text)}</li>`).join("")}
+          </ul>
+
+          ${item.note ? `<p class="menu-card-note">${esc(item.note)}</p>` : ""}
+
+          <label class="menu-interest-option">
+            <input
+              type="checkbox"
+              data-pick="${esc(item.id)}"
+              ${selected ? "checked" : ""}
+            >
+            <span class="menu-interest-check" aria-hidden="true">${selected ? "✓" : "+"}</span>
+            <span>
+              <strong>${selected ? "Added to my preferences" : "I'd consider this"}</strong>
+              <small>Help us understand demand</small>
+            </span>
+          </label>
+        </div>
+      </article>
+    `;
+  }).join("");
 
   const draw = () => {
-    const visibleMeals = M.MENU.filter(
-      m => filter === "all" || m.cat === filter
-    );
+    const visibleMeals = filter === "all" || filter === "thali" || filter === "rice" || filter === "light"
+      ? meals.filter(m => filter === "all" || m.cat === filter)
+      : [];
+
+    const visiblePlans = filter === "all" || filter === "plan" ? plans : [];
+    const visibleVrat = filter === "all" || filter === "vrat" ? vratMeals : [];
+    const showEvents = filter === "all" || filter === "bulk";
+
+    const count = visibleMeals.length + visiblePlans.length + visibleVrat.length + (showEvents ? events.length : 0);
 
     app.innerHTML = `
       <section class="menu-page">
         <div class="menu-wrap">
 
           <header class="menu-intro">
-            <span class="menu-eyebrow">
-              MATHURA MEAL MARKET · MENU CONCEPTS
-            </span>
-
-            <h1>
-              Everyday meals,<br>
-              <em>made to feel like home.</em>
-            </h1>
-
+            <span class="menu-eyebrow">MATHURA MEAL MARKET · PROPOSED MENU</span>
+            <h1>Everyday meals,<br><em>made to feel like home.</em></h1>
             <p>
-              Explore the vegetarian meal concepts we're considering
-              for Mathura. Help us understand what you'd genuinely
-              enjoy and what you'd realistically pay.
+              From everyday ghar-ka-khana and monthly tiffins
+              to fasting meals and food for your special gatherings.
+              Explore the concepts we're researching for Mathura.
             </p>
-
             <div class="menu-intro-meta">
-              <span>✳ Vegetarian concepts</span>
-              <span>✳ Illustrative pricing</span>
-              <span>✳ Your preferences matter</span>
+              <span>✳ Vegetarian meal concepts</span>
+              <span>✳ Proposed prices</span>
+              <span>✳ Custom menus by enquiry</span>
             </div>
           </header>
 
           <div class="menu-research-notice">
             <span class="menu-notice-icon" aria-hidden="true">ⓘ</span>
             <div>
-              <strong>These meals are proposed concepts.</strong>
+              <strong>We're currently researching demand.</strong>
               <p>
-                The photographs are illustrative, and prices are
-                estimates for market research. Orders and payments
-                are not currently being accepted.
+                Photos are illustrative and prices are proposed estimates.
+                Orders, payments and bookings are not currently being accepted.
+                Event enquiry forms are expressions of interest only.
               </p>
             </div>
           </div>
@@ -522,177 +795,119 @@ function menu(app) {
               <span class="menu-eyebrow">FIND YOUR KIND OF MEAL</span>
               <h2>Explore the menu</h2>
             </div>
-
-            <span class="menu-count">
-              ${visibleMeals.length} concepts
-            </span>
+            <span class="menu-count">${count} concepts</span>
           </div>
 
-          <div class="menu-filter-bar"
-               role="radiogroup"
-               aria-label="Filter by meal type">
-
+          <div class="menu-filter-bar" role="radiogroup" aria-label="Filter menu categories">
             ${cats.map(c => `
               <label class="menu-filter-chip">
-                <input
-                  type="radio"
-                  name="cat"
-                  value="${c[0]}"
-                  ${filter === c[0] ? "checked" : ""}
-                >
+                <input type="radio" name="cat" value="${c[0]}" ${filter === c[0] ? "checked" : ""}>
                 <span>${c[1]}</span>
               </label>
             `).join("")}
-
           </div>
 
-          <div class="menu-photo-grid">
-
-            ${visibleMeals.map((m, index) => {
-              const photo = menuPhotos[index % menuPhotos.length];
-              const selected = picks.includes(m.id);
-
-              return `
-                <article class="menu-product-card">
-
-                  <div class="menu-product-image">
-                    <img
-                      src="${photo}"
-                      alt="Illustrative vegetarian meal concept"
-                      loading="lazy"
-                    >
-
-                    <span class="menu-image-label">
-                      Proposed concept
-                    </span>
-                  </div>
-
-                  <div class="menu-product-body">
-
-                    <div class="menu-product-topline">
-                      <span class="menu-product-category">
-                        ${esc(
-                          cats.find(c => c[0] === m.cat)?.[1] || "Vegetarian"
-                        )}
-                      </span>
-
-                      <span class="menu-product-status">
-                        Research
-                      </span>
-                    </div>
-
-                    <h3>${esc(m.name)}</h3>
-
-                    <div class="menu-product-price">
-                      ${inr(m.price)}
-                      ${m.unit ? `
-                        <small>/ ${esc(m.unit)}</small>
-                      ` : ""}
-                    </div>
-
-                    <ul class="menu-product-items">
-                      ${m.items.map(item => `
-                        <li>${esc(item)}</li>
-                      `).join("")}
-                    </ul>
-
-                    <label class="menu-interest-option">
-                      <input
-                        type="checkbox"
-                        data-pick="${esc(m.id)}"
-                        ${selected ? "checked" : ""}
-                      >
-
-                      <span class="menu-interest-check"
-                            aria-hidden="true">
-                        ${selected ? "✓" : "+"}
-                      </span>
-
-                      <span>
-                        <strong>
-                          ${selected ? "Added to my preferences" : "I'd consider this meal"}
-                        </strong>
-                        <small>
-                          Help us understand your preferences
-                        </small>
-                      </span>
-                    </label>
-
-                  </div>
-                </article>
-              `;
-            }).join("")}
-
-          </div>
-
-          <section class="menu-comparison">
-            <div class="menu-comparison-heading">
-              <span class="menu-eyebrow">A REGULAR MEAL ROUTINE</span>
-              <h2>What could a meal plan look like?</h2>
-              <p>
-                Compare these illustrative prices and tell us
-                whether they would work for your budget.
-              </p>
+          ${visibleMeals.length ? `
+            <div class="menu-subheading">
+              <span class="menu-eyebrow">FRESH IDEAS FOR EVERYDAY</span>
+              <h2>${filter === "all" ? "Daily meals & comfort food" : esc(cats.find(c => c[0] === filter)?.[1] || "Meals")}</h2>
             </div>
-
-            <div class="menu-plan-grid">
-
-              <article class="menu-plan-card">
-                <span class="menu-plan-label">FLEXIBLE</span>
-                <h3>Daily meal</h3>
-                <div class="menu-plan-price">₹119</div>
-                <p>Pay per proposed meal.</p>
-                <span class="menu-plan-detail">
-                  No weekly commitment
-                </span>
-              </article>
-
-              <article class="menu-plan-card menu-plan-featured">
-                <span class="menu-plan-label">WEEKLY ROUTINE</span>
-                <h3>6-meal plan</h3>
-                <div class="menu-plan-price">₹680</div>
-                <p>Approximately ₹113 per meal.</p>
-                <span class="menu-plan-detail">
-                  Illustrative weekly total
-                </span>
-              </article>
-
-              <article class="menu-plan-card">
-                <span class="menu-plan-label">MONTHLY ROUTINE</span>
-                <h3>26-meal plan</h3>
-                <div class="menu-plan-price">₹2,600</div>
-                <p>Approximately ₹100 per meal.</p>
-                <span class="menu-plan-detail">
-                  Illustrative monthly total
-                </span>
-              </article>
-
+            <div class="menu-photo-grid">
+              ${visibleMeals.map(m => renderCards([m], m.cat, m.cat)).join("")}
             </div>
+          ` : ""}
 
-            <p class="menu-pricing-footnote">
-              All prices are estimates for research, not confirmed
-              prices or offers. Actual meals, portions, availability
-              and pricing would need to be established before launch.
-            </p>
-          </section>
+          ${visiblePlans.length ? `
+            <section class="menu-special-section">
+              <div class="menu-subheading">
+                <span class="menu-eyebrow">A ROUTINE THAT WORKS FOR YOU</span>
+                <h2>Monthly tiffin plans</h2>
+                <p>Both plans are proposed for Monday to Saturday service, with Sundays excluded.</p>
+              </div>
+              <div class="menu-photo-grid menu-plan-cards">
+                ${visiblePlans.map(p => renderCards([p], "plan", "plan")).join("")}
+              </div>
+            </section>
+          ` : ""}
+
+          ${visibleVrat.length ? `
+            <section class="menu-special-section">
+              <div class="menu-subheading">
+                <span class="menu-eyebrow">FOR FASTING DAYS & FESTIVALS</span>
+                <h2>Vrat & festival meals</h2>
+                <p>Different households follow different fasting practices. Menu details can be discussed for each occasion.</p>
+              </div>
+              <div class="menu-photo-grid">
+                ${visibleVrat.map(v => renderCards([v], "vrat", "vrat")).join("")}
+              </div>
+            </section>
+          ` : ""}
+
+          ${showEvents ? `
+            <section class="menu-special-section menu-event-section">
+              <div class="menu-subheading">
+                <span class="menu-eyebrow">FOR THE OCCASIONS THAT BRING EVERYONE TOGETHER</span>
+                <h2>Bulk meals & event catering</h2>
+                <p>
+                  From poori-sabzi and kheer to paneer, jeera rice,
+                  raita, papad and pickle—we can explore a custom vegetarian
+                  menu based on the event, guest count and requirements.
+                </p>
+              </div>
+
+              <div class="menu-photo-grid menu-event-grid">
+                ${events.map(event => `
+                  <article class="menu-product-card menu-event-card">
+                    <div class="menu-product-image">
+                      <img src="${photos.bulk}" alt="${esc(event.name)} food concept" loading="lazy">
+                      <span class="menu-image-label">Custom menu</span>
+                    </div>
+                    <div class="menu-product-body">
+                      <div class="menu-product-topline">
+                        <span class="menu-product-category">Bulk & events</span>
+                        <span class="menu-product-status">Enquiry only</span>
+                      </div>
+                      <h3>${esc(event.name)}</h3>
+                      <p class="menu-card-description">${esc(event.description)}</p>
+                      <ul class="menu-product-items">
+                        ${event.items.map(text => `<li>${esc(text)}</li>`).join("")}
+                      </ul>
+                      <p class="menu-card-note">Pricing depends on the menu, guest count, portions and service requirements.</p>
+                      <a class="menu-contact-button" href="#/catering?type=${encodeURIComponent(event.id)}">
+                        Contact for pricing <span aria-hidden="true">↗</span>
+                      </a>
+                    </div>
+                  </article>
+                `).join("")}
+              </div>
+              <div class="menu-bulk-note">
+                <strong>Have a different event in mind?</strong>
+                <p>Tell us the occasion, approximate number of guests and the food you'd like to serve.</p>
+                <a class="menu-contact-button" href="#/catering">Discuss a custom menu <span aria-hidden="true">↗</span></a>
+              </div>
+            </section>
+          ` : ""}
 
           <section class="menu-feedback">
             <div>
               <span class="menu-eyebrow">HELP SHAPE THE MENU</span>
               <h2>Your choices can shape what comes next.</h2>
               <p>
-                You've selected
-                <strong>${picks.length}</strong>
+                You've selected <strong class="menu-pick-count">${picks.length}</strong>
                 meal concept${picks.length === 1 ? "" : "s"}.
-                Continue to the short survey to tell us about your
-                budget and preferences.
+                Continue to the survey to tell us what matters to you.
               </p>
             </div>
-
             <a class="menu-feedback-button" href="#/survey">
               Share my preferences <span>↗</span>
             </a>
           </section>
+
+          <p class="menu-pricing-footnote">
+            All displayed prices are proposed for market research and are not confirmed offers.
+            Actual menus, portions, schedules, delivery arrangements, availability and prices
+            would need to be established before any launch.
+          </p>
 
         </div>
       </section>
@@ -702,10 +917,7 @@ function menu(app) {
       input.onchange = () => {
         filter = input.value;
         draw();
-
-        const selectedFilter =
-          app.querySelector(`[name="cat"][value="${filter}"]`);
-
+        const selectedFilter = app.querySelector(`[name="cat"][value="${filter}"]`);
         if (selectedFilter) selectedFilter.focus();
       };
     });
@@ -718,29 +930,19 @@ function menu(app) {
 
         S.ls.set("mmm_menu_pick", picks);
 
-        // Refresh the selection summary without rebuilding the entire page.
-        const feedback = app.querySelector(".menu-feedback p");
-
-        if (feedback) {
-          feedback.innerHTML = `
-            You've selected
-            <strong>${picks.length}</strong>
-            meal concept${picks.length === 1 ? "" : "s"}.
-            Continue to the short survey to tell us about your
-            budget and preferences.
-          `;
-        }
+        app.querySelectorAll(".menu-pick-count").forEach(el => {
+          el.textContent = picks.length;
+        });
 
         const label = input.closest(".menu-interest-option");
         const check = label?.querySelector(".menu-interest-check");
         const title = label?.querySelector(".menu-interest-option strong");
 
         if (check) check.textContent = input.checked ? "✓" : "+";
-
         if (title) {
           title.textContent = input.checked
             ? "Added to my preferences"
-            : "I'd consider this meal";
+            : "I'd consider this";
         }
       };
     });
