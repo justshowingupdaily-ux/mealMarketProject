@@ -74,8 +74,8 @@
   ];
   function home(app) {
   const photos = {
-hero: "https://unsplash.com/photos/a-plate-of-food-on-a-table-with-flowers-BTPitM55gMw?auto=format&fit=crop&w=1400&q=80",
-  student: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=700&q=80",
+hero: "https://images.unsplash.com/photo-1680359873864-43e89bf248ac?auto=format&fit=crop&w=1600&q=85",
+ student: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=700&q=80",
 
   working: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=700&q=80",
 
